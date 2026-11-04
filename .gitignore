@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# local tooling & temporary files
+node_modules/
+_tmp_*
+*.log
+
+# workspace-specific artifacts, not part of the site
+.screenshots/
+.trae-html-share-packages/
