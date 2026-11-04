@@ -7,7 +7,7 @@
   const DEFAULTS = {
     storeBranch: '阳光在线广场店',
     address: '',
-    order: '2302 3699 2427 7879 157',
+    order: '2302369924277879157',
     image: DEFAULT_PRODUCT
   };
 
@@ -92,7 +92,26 @@
       String(rand(1000, 9999)),
       String(rand(1000, 9999)),
       String(rand(100, 999))
-    ].join(' ');
+    ].join('');
+  }
+
+  function normalizeOrderInput() {
+    const el = inputs.order;
+    const raw = el.value;
+    const caret = el.selectionStart == null ? raw.length : el.selectionStart;
+    const digitsBeforeCaret = raw.slice(0, caret).replace(/\D/g, '').length;
+    const cleaned = raw.replace(/\D/g, '').slice(0, 24);
+    if (raw !== cleaned) {
+      el.value = cleaned;
+      const nextCaret = Math.min(digitsBeforeCaret, cleaned.length);
+      el.setSelectionRange(nextCaret, nextCaret);
+    }
+  }
+
+  function formatOrderNo(raw) {
+    const digits = String(raw || '').replace(/\D/g, '');
+    if (!digits) return '';
+    return (digits.match(/.{1,4}/g) || []).join(' ');
   }
 
   function formatDateTime(d) {
@@ -155,7 +174,7 @@
   function syncAll() {
     views.store.textContent = buildStore(inputs.store.value);
     applyValue('address', inputs.address.value.replace(/\r\n/g, '\n'));
-    applyValue('order', inputs.order.value);
+    views.order.textContent = formatOrderNo(inputs.order.value);
     applyValue('time', inputs.time.value);
     scheduleFit();
   }
@@ -295,7 +314,10 @@
   }
 
   Object.values(inputs).forEach((el) => {
-    el.addEventListener('input', syncAll);
+    el.addEventListener('input', () => {
+      if (el === inputs.order) normalizeOrderInput();
+      syncAll();
+    });
   });
 
   $('randomBtn').addEventListener('click', randomizeAll);

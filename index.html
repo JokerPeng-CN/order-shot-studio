@@ -75,7 +75,7 @@
       <div class="field">
         <label for="in-order">订单号码 <span class="en">ORDER NO.</span></label>
         <div class="input-with-action">
-          <input type="text" id="in-order" maxlength="24" autocomplete="off" spellcheck="false">
+          <input type="text" id="in-order" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false">
           <button type="button" class="mini-btn" id="randomOrderBtn" title="随机订单号">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
               <rect x="3.5" y="3.5" width="17" height="17" rx="4"/>
@@ -86,6 +86,7 @@
             </svg>
           </button>
         </div>
+        <p class="hint">输入连续数字即可，截图会自动按 4 位分组显示。</p>
       </div>
 
       <div class="field">
